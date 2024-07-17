@@ -19,11 +19,35 @@ class TaskType(models.Model):
 
 class Worker(AbstractUser):
     position = models.ForeignKey(
-        Position, on_delete=models.CASCADE, null=True, blank=True
+        Position, on_delete=models.CASCADE, null=True, related_name="workers"
     )
 
     def __str__(self):
-        return str(self.position)
+        return (
+            f"{self.first_name} {self.last_name} "
+            f"({self.position})"
+        )
+
+
+class Project(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+
+    class Meta:
+        ordering = ("id",)
+
+    def __str__(self):
+        return str(self.name)
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=255)
+
+    class Meta:
+        ordering = ("id",)
+
+    def __str__(self):
+        return str(self.name)
 
 
 class Task(models.Model):
@@ -35,25 +59,28 @@ class Task(models.Model):
     ]
     name = models.CharField(max_length=255)
     description = models.TextField()
-    deadline = models.DateField()
-    is_completed = models.BooleanField(default=False)
     priority = models.CharField(max_length=255, choices=PRIORITY_CHOICES)
-    task_type = models.ForeignKey(TaskType, on_delete=models.CASCADE)
-    assignees = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
+    created_at = models.DateField(auto_now_add=True)
+    deadline = models.DateField()
+    type = models.ForeignKey(
+        TaskType, on_delete=models.CASCADE, related_name="tasks"
+    )
+    project = models.ForeignKey(
+        Project, on_delete=models.CASCADE, related_name="tasks"
+    )
+    assignees = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, blank=True
+    )
+    tags = models.ManyToManyField(Tag, blank=True)
+    is_completed = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ("-created_at",)
 
     def __str__(self):
         return (
-            f"{self.name}: {self.task_type}"
-            f"Description: ({self.description})"
+            f"{self.name}: {self.type}"
+            f"Description: {self.description}"
             f"Priority: {self.priority}"
             f"Deadline: {self.deadline}"
         )
-
-
-class Project(models.Model):
-    name = models.CharField(max_length=255)
-    description = models.TextField()
-    tasks = models.ManyToManyField(Task, blank=True)
-
-    def __str__(self):
-        return f"{self.name} ({self.description})"
