@@ -1,15 +1,14 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-
 from .models import Position, TaskType, Worker, Project, Tag, Task
 
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
     list_display = [
-        "name", "description", "priority",
-        "created_at", "deadline", "type",
-        "project", "is_completed", "display_assignees", "display_tags"
+        "name", "description", "priority", "created_at",
+        "deadline", "is_completed", "type", "project",
+        "display_assignees", "display_tags"
     ]
     list_filter = ["name", ]
     search_fields = ["name", ]
