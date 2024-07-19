@@ -16,13 +16,13 @@
     {% if user.is_authenticated %}
       <div>
         <h3>
-          <a href="{% url 'logout' %}">Logout</a>
+          <a href="{% url 'accounts:logout' %}">Logout</a>
         </h3>
         <p style="text-align: right" >{{ user.username }}</p>
       </div>
     {% else %}
       <h3>
-        <a href="{% url 'login' %}">Log in</a>
+        <a href="{% url 'accounts:login' %}">Log in</a>
       </h3>
     {% endif %}
   </nav>

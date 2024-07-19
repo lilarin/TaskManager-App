@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
-from task_manager.models import Task, Tag, Worker
+from task_manager.models import Task, Tag
 
 
 class TaskCreationForm(forms.ModelForm):
@@ -30,7 +29,10 @@ class TaskCreationForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ['name', 'description', 'priority', 'deadline', 'type', 'assignees', 'tags']
+        fields = [
+            'name', 'description', 'priority',
+            'deadline', 'type', 'assignees', 'tags'
+        ]
 
 
 class TaskUpdateForm(forms.ModelForm):
@@ -55,7 +57,9 @@ class TaskUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ['description', 'priority', 'deadline', 'assignees', 'tags']
+        fields = [
+            'description', 'priority', 'deadline', 'assignees', 'tags'
+        ]
 
 
 class ProjectSearchForm(forms.Form):
@@ -65,7 +69,7 @@ class ProjectSearchForm(forms.Form):
         label="",
         widget=forms.TextInput(
             attrs={
-                "placeholder": "Search project by name"
+                "placeholder": "Search by project name"
             }
         )
     )
@@ -78,7 +82,7 @@ class TaskSearchForm(forms.Form):
         label="",
         widget=forms.TextInput(
             attrs={
-                "placeholder": "Search task by name"
+                "placeholder": "Search by task name"
             }
         )
     )

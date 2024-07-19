@@ -17,19 +17,25 @@
     --justify-important: center;
     --justify-normal: left;
     --line-height: 1.5;
-    --width-card: 280px;
-    --width-card-medium: 460px;
+    --width-card: 300px;
+    --width-register: 355px;
     --width-card-wide: 800px;
     --width-comment: 980px;
     --width-content: 1180px;
     --pagination-width: 160px;
+    --login-padding: 160px;
+    --register-padding: 100px;
     --scrollbar-width: 15px;
 }
 
 
-h1 {
+.login {
     text-align: center;
-    padding-top: var(--pagination-width);;
+    padding-top: var(--login-padding);;
+}
+
+.register {
+    text-align: center;
 }
 
 footer {
@@ -55,12 +61,17 @@ body::after {
     overflow: hidden;
 }
 
-footer,
 header,
 main {
     margin: 0 auto;
     max-width: var(--width-content);
-    padding: 2rem 1rem;
+    padding: 2rem 1rem 0.5rem 1rem;
+}
+
+footer {
+    margin: 0 auto;
+    max-width: var(--width-content);
+    padding: 2rem 1rem 0.5rem 1rem;
 }
 
 nav {
@@ -146,17 +157,40 @@ a:hover {
 }
 
 .search-button {
-    display: none;
+    transform: translateX(-0.25em);
 }
 
 .form-login {
     border: 1px solid var(--color-bg-secondary);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow) var(--color-shadow);
-    display: block;
+    display: compact;
     max-width: var(--width-card);
     padding: 2.2rem;
     margin: 0 auto;
+}
+
+.form-login input[type="text"],
+.form-login input[type="password"] {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-register {
+    border: 1px solid var(--color-bg-secondary);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow) var(--color-shadow);
+    display: compact;
+    max-width: var(--width-register);
+    padding: 2.2rem;
+    margin: 0 auto;
+}
+
+.form-register input[type="text"],
+.form-register input[type="email"],
+.form-register input[type="password"] {
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .form-project {
