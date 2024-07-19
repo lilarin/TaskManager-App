@@ -1,10 +1,16 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404, redirect
+from task_manager.models import Project, Task, Worker
 from django.urls import reverse_lazy
 from django.views import generic
-from .models import Project, Task
-from .form import ProjectSearchForm, TaskSearchForm, TaskCreationForm, TaskUpdateForm
+from task_manager.form import (
+    ProjectSearchForm,
+    TaskSearchForm,
+    TaskCreationForm,
+    TaskUpdateForm,
+)
 
 
 class IndexListView(generic.ListView):
@@ -33,7 +39,7 @@ class IndexListView(generic.ListView):
         return queryset
 
 
-class ProjectTaskListView(generic.ListView):
+class ProjectTaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
     template_name = 'task_manager/project_task_list.html'
     context_object_name = 'tasks'
@@ -47,21 +53,32 @@ class ProjectTaskListView(generic.ListView):
             Project, pk=self.kwargs.get('pk')
         )
         context["search_form"] = self.search_form_class(
-            initial={self.search_field: search_value}
+            initial={
+                self.search_field: search_value,
+                'pending': self.request.GET.get('pending') == 'on',
+                'assigned_to_user': self.request.GET.get('assigned_to_user') == 'on',
+            }
         )
         return context
 
     def get_queryset(self):
         project = get_object_or_404(Project, pk=self.kwargs.get('pk'))
         queryset = super().get_queryset().filter(
-            **{f"project_id": project.id}
+            project_id=project.id
         )
         form = self.search_form_class(self.request.GET)
         if form.is_valid():
-            search_value = form.cleaned_data[self.search_field]
-            return queryset.filter(
-                **{f"{self.search_field}__icontains": search_value}
-            )
+            search_value = form.cleaned_data.get(self.search_field, '')
+            if search_value:
+                queryset = queryset.filter(
+                    **{f"{self.search_field}__icontains": search_value}
+                )
+            if form.cleaned_data.get('pending'):
+                queryset = queryset.filter(is_completed=False)
+            assigned = form.cleaned_data.get('assigned_to_user')
+            if assigned:
+                user = Worker.objects.get(id=self.request.user.id)
+                queryset = queryset.filter(assignees=user)
         return queryset
 
 
@@ -82,7 +99,7 @@ class ProjectDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy("task_manager:index")
 
 
-class TaskDetailView(generic.DetailView):
+class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     model = Task
     template_name = 'task_manager/task_detail.html'
     context_object_name = 'task'

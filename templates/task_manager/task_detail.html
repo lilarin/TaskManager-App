@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load crispy_forms_filters %}
+{% load static %}
 
 {% block title %}
   Task | {{ task.name }}
@@ -8,7 +8,7 @@
 {% block content %}
   <li class="page-section">
     <h2>{{ task.name }}</h2>
-    <p class="description" >
+    <p class="description">
       {{ task.description }}
     </p>
   </li>
@@ -28,8 +28,8 @@
       <tbody>
         <tr>
           <td>{{ task.created_at }}</td>
-          <td>{{ task.deadline }}</td>
-          <td>
+          <td class="task-detail-deadline">{{ task.deadline }}</td>
+          <td class="task-detail-status">
             {% if task.is_completed %}
               Completed
             {% else %}
@@ -79,4 +79,6 @@
       </a>
     </p>
   </nav>
+  <script src="{% static 'js/statusUtils.js' %}"></script>
+  <script src="{% static 'js/taskDetail.js' %}"></script>
 {% endblock %}
