@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+{% block title %}
+  {{ object|yesno:"Update,Create" }} task {{ task.name }}
+{% endblock %}
+
+{% block content %}
+  <li class="page-section form-project">
+    <h2>{{ object|yesno:"Update task:,Create new task" }} <strong>{{ task.name }}</strong></h2>
+    <form action="" method="post" novalidate>
+      {% csrf_token %}
+      {{ form|crispy }}
+      <span>
+        {% if pk %}
+          <a href="{% url 'task_manager:project-task-list' pk=pk %}" class="btn btn-secondary link-to-page">
+            <strong>🡸 Previous page</strong>
+          </a>
+        {% else %}
+          <a href="{% url 'task_manager:task-detail' project_id=task.project.id pk=task.id %}" class="btn btn-secondary link-to-page">
+            <strong>🡸 Previous page</strong>
+          </a>
+        {% endif %}
+        <input type="submit" value="Submit" class="btn btn-primary">
+      </span>
+    </form>
+  </li>
+{% endblock %}
+
+
