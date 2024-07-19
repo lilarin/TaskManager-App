@@ -1,9 +1,134 @@
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
 from django.views import generic
-from .models import Project
+from .models import Project, Task
+from .form import ProjectSearchForm, TaskSearchForm, TaskCreationForm, TaskUpdateForm
 
 
-# Create your views here.
 class IndexListView(generic.ListView):
     model = Project
     template_name = "task_manager/index.html"
+    context_object_name = 'projects'
+    search_form_class = ProjectSearchForm
+    search_field = "name"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        search_value = self.request.GET.get(self.search_field, "")
+        context["search_form"] = self.search_form_class(
+            initial={self.search_field: search_value}
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        form = self.search_form_class(self.request.GET)
+        if form.is_valid():
+            search_value = form.cleaned_data[self.search_field]
+            return queryset.filter(
+                **{f"{self.search_field}__icontains": search_value}
+            )
+        return queryset
+
+
+class ProjectTaskListView(generic.ListView):
+    model = Task
+    template_name = 'task_manager/project_task_list.html'
+    context_object_name = 'tasks'
+    search_form_class = TaskSearchForm
+    search_field = "name"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        search_value = self.request.GET.get(self.search_field, "")
+        context["project"] = get_object_or_404(
+            Project, pk=self.kwargs.get('pk')
+        )
+        context["search_form"] = self.search_form_class(
+            initial={self.search_field: search_value}
+        )
+        return context
+
+    def get_queryset(self):
+        project = get_object_or_404(Project, pk=self.kwargs.get('pk'))
+        queryset = super().get_queryset().filter(
+            **{f"project_id": project.id}
+        )
+        form = self.search_form_class(self.request.GET)
+        if form.is_valid():
+            search_value = form.cleaned_data[self.search_field]
+            return queryset.filter(
+                **{f"{self.search_field}__icontains": search_value}
+            )
+        return queryset
+
+
+class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Project
+    fields = "__all__"
+    success_url = reverse_lazy("task_manager:index")
+
+
+class ProjectUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Project
+    fields = "__all__"
+    success_url = reverse_lazy("task_manager:index")
+
+
+class ProjectDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Project
+    success_url = reverse_lazy("task_manager:index")
+
+
+class TaskDetailView(generic.DetailView):
+    model = Task
+    template_name = 'task_manager/task_detail.html'
+    context_object_name = 'task'
+
+
+class TaskCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Task
+    form_class = TaskCreationForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['pk'] = self.kwargs.get('pk')
+        return context
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['project_id'] = self.kwargs.get('project_id')
+        return kwargs
+
+    def form_valid(self, form):
+        form.instance.project_id = self.kwargs.get('project_id')
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy(
+            'task_manager:project-task-list',
+            kwargs={'pk': self.kwargs.get('project_id')}
+        )
+
+
+class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Task
+    form_class = TaskUpdateForm
+
+    def get_success_url(self):
+        return reverse_lazy(
+            'task_manager:project-task-list',
+            kwargs={'pk': self.object.project_id}
+        )
+
+
+class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Task
+
+    def get_success_url(self):
+        return reverse_lazy(
+            'task_manager:project-task-list',
+            kwargs={'pk': self.object.project_id}
+        )
