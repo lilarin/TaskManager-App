@@ -23,6 +23,7 @@
     --width-comment: 980px;
     --width-content: 1180px;
     --pagination-width: 160px;
+    --scrollbar-width: 15px;
 }
 
 
@@ -43,6 +44,15 @@ body {
     margin: 0;
     overflow-x: hidden;
     padding: 1rem 0;
+    width: calc(100vw - var(--scrollbar-width));
+}
+
+body::after {
+    content: '';
+    display: block;
+    height: 1px;
+    margin-top: -1px;
+    overflow: hidden;
 }
 
 footer,
