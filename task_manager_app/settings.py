@@ -42,9 +42,15 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "crispy_forms",
     "task_manager",
+    "crispy_forms",
+    "crispy_bootstrap4",
+    # "django_htmx",
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -54,6 +60,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = "task_manager_app.urls"
@@ -73,8 +80,6 @@ TEMPLATES = [
         },
     },
 ]
-
-CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 WSGI_APPLICATION = "task_manager_app.wsgi.application"
 
@@ -115,6 +120,8 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = "task_manager.Worker"
 
 LOGIN_REDIRECT_URL = "/"
+
+LOGOUT_REDIRECT_URL = "/"
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/

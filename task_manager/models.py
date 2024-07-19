@@ -29,22 +29,16 @@ class Worker(AbstractUser):
         )
 
 
-class Project(models.Model):
+class Tag(models.Model):
     name = models.CharField(max_length=255)
-    description = models.TextField()
-
-    class Meta:
-        ordering = ("id",)
 
     def __str__(self):
         return str(self.name)
 
 
-class Tag(models.Model):
+class Project(models.Model):
     name = models.CharField(max_length=255)
-
-    class Meta:
-        ordering = ("id",)
+    description = models.TextField()
 
     def __str__(self):
         return str(self.name)
