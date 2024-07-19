@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
-
-from .models import Task, Tag
+from django.contrib.auth.forms import UserCreationForm
+from task_manager.models import Task, Tag, Worker
 
 
 class TaskCreationForm(forms.ModelForm):
@@ -79,6 +79,24 @@ class TaskSearchForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Search task by name"
+            }
+        )
+    )
+    pending = forms.BooleanField(
+        required=False,
+        label="Pending",
+        widget=forms.CheckboxInput(
+            attrs={
+                "class": "form-checkbox"
+            }
+        )
+    )
+    assigned_to_user = forms.BooleanField(
+        required=False,
+        label="Assigned to me",
+        widget=forms.CheckboxInput(
+            attrs={
+                "class": "form-checkbox"
             }
         )
     )

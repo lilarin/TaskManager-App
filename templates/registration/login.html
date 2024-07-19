@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
+{% block title %}
+  Task Manager | Login
+{% endblock %}
+
 {% block header %}
-  {% include "include/header_login.html" %}
+  <h1>Log in to continue</h1>
 {% endblock %}
 
 {% block content %}
@@ -11,7 +15,12 @@
   <form class="form-login" action="{% url 'login' %}" method="post">
   {% csrf_token %}
     {{ form.as_p }}
-    <input class="btn btn-primary"  type="submit" name="submit" value="Log in">
-    <input type="hidden" name="next" value="{{ next }}">
+    <span>
+      <input class="btn btn-primary"  type="submit" name="submit" value="Log in">
+      <input type="hidden" name="next" value="{{ next }}">
+      <a href="{% url 'task_manager:index' %}" class="btn btn-secondary link-to-page">
+        Home
+      </a>
+    </span>
   </form>
 {% endblock %}
