@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from task_manager.models import Project, Task, Worker
 from django.urls import reverse_lazy
@@ -149,3 +150,16 @@ class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
             'task_manager:project-task-list',
             kwargs={'pk': self.object.project_id}
         )
+
+
+@login_required()
+def toggle_task_status(request: HttpRequest, project_id: int, pk: int) -> HttpResponse:
+    task = get_object_or_404(Task, pk=pk)
+    task.is_completed = not task.is_completed
+    task.save()
+    return HttpResponseRedirect(
+        reverse_lazy(
+            'task_manager:task-detail',
+            kwargs={'project_id': project_id, 'pk': pk}
+        )
+    )

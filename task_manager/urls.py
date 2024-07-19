@@ -8,7 +8,8 @@ from task_manager.views import (
     TaskDetailView,
     TaskCreateView,
     TaskUpdateView,
-    TaskDeleteView
+    TaskDeleteView,
+    toggle_task_status
 )
 
 
@@ -53,6 +54,11 @@ urlpatterns = [
         "projects/<int:project_id>/tasks/<int:pk>/delete/",
         TaskDeleteView.as_view(),
         name="task-delete",
+    ),
+    path(
+        "projects/<int:project_id>/tasks/<int:pk>/toggle/",
+        toggle_task_status,
+        name="task-toggle",
     ),
 ]
 

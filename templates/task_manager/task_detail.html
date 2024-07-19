@@ -69,6 +69,15 @@
       <a href="{% url 'task_manager:project-task-list' pk=task.project.id %}" class="btn btn-secondary link-to-page">
         🡸 Previous page
       </a>
+      {% if task.is_completed %}
+        <a href="{% url 'task_manager:task-toggle' project_id=task.project.id pk=task.id %}" class="btn btn-danger link-to-page">
+          Mark as uncompleted
+        </a>
+      {% else %}
+        <a href="{% url 'task_manager:task-toggle' project_id=task.project.id pk=task.id %}" class="btn btn-success link-to-page">
+          Mark as completed
+        </a>
+      {% endif %}
     </p>
     <p>
       <a href="{% url 'task_manager:task-update' project_id=task.project.id pk=task.id %}" class="btn btn-warning link-to-page">
