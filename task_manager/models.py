@@ -19,14 +19,14 @@ class TaskType(models.Model):
 
 class Worker(AbstractUser):
     position = models.ForeignKey(
-        Position, on_delete=models.CASCADE, null=True, related_name="workers"
+        Position,
+        on_delete=models.CASCADE,
+        null=True,
+        related_name="workers"
     )
 
     def __str__(self):
-        return (
-            f"{self.first_name} {self.last_name} "
-            f"({self.position})"
-        )
+        return f"{self.first_name} {self.last_name} ({self.position})"
 
 
 class Tag(models.Model):
@@ -40,18 +40,21 @@ class Project(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
 
+    class Meta:
+        ordering = ("name",)
+
     def __str__(self):
         return str(self.name)
 
 
 class Task(models.Model):
     PRIORITY_CHOICES = [
-        ('Urgent', 'Urgent'),
-        ('High', 'High'),
-        ('Medium', 'Medium'),
-        ('Low', 'Low'),
+        ("Urgent", "Urgent"),
+        ("High", "High"),
+        ("Medium", "Medium"),
+        ("Low", "Low"),
     ]
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     description = models.TextField()
     priority = models.CharField(max_length=255, choices=PRIORITY_CHOICES)
     created_at = models.DateField(auto_now_add=True)
@@ -65,7 +68,9 @@ class Task(models.Model):
     assignees = models.ManyToManyField(
         settings.AUTH_USER_MODEL, blank=True
     )
-    tags = models.ManyToManyField(Tag, blank=True)
+    tags = models.ManyToManyField(
+        Tag, blank=True
+    )
     is_completed = models.BooleanField(default=False)
 
     class Meta:

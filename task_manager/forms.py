@@ -7,7 +7,7 @@ class TaskCreationForm(forms.ModelForm):
     assignees = forms.ModelMultipleChoiceField(
         queryset=get_user_model().objects.all(),
         widget=forms.CheckboxSelectMultiple,
-        required=False
+        required=False,
     )
     tags = forms.ModelMultipleChoiceField(
         queryset=Tag.objects.all(),
@@ -17,21 +17,26 @@ class TaskCreationForm(forms.ModelForm):
     deadline = forms.DateField(
         widget=forms.DateInput(
             attrs={
-                'type': 'date',
+                "type": "date",
             }
         ),
-        required=True
+        required=True,
     )
 
     def __init__(self, *args, **kwargs):
-        self.project_id = kwargs.pop('project_id', None)
+        self.project_id = kwargs.pop("project_id", None)
         super().__init__(*args, **kwargs)
 
     class Meta:
         model = Task
         fields = [
-            'name', 'description', 'priority',
-            'deadline', 'type', 'assignees', 'tags'
+            "name",
+            "description",
+            "priority",
+            "deadline",
+            "type",
+            "assignees",
+            "tags",
         ]
 
 
@@ -39,7 +44,7 @@ class TaskUpdateForm(forms.ModelForm):
     assignees = forms.ModelMultipleChoiceField(
         queryset=get_user_model().objects.all(),
         widget=forms.CheckboxSelectMultiple,
-        required=False
+        required=False,
     )
     tags = forms.ModelMultipleChoiceField(
         queryset=Tag.objects.all(),
@@ -49,16 +54,16 @@ class TaskUpdateForm(forms.ModelForm):
     deadline = forms.DateField(
         widget=forms.DateInput(
             attrs={
-                'type': 'date',
+                "type": "date",
             }
         ),
-        required=True
+        required=True,
     )
 
     class Meta:
         model = Task
         fields = [
-            'description', 'priority', 'deadline', 'assignees', 'tags'
+            "description", "priority", "deadline", "assignees", "tags"
         ]
 
 
@@ -68,10 +73,8 @@ class ProjectSearchForm(forms.Form):
         required=False,
         label="",
         widget=forms.TextInput(
-            attrs={
-                "placeholder": "Search by project name"
-            }
-        )
+            attrs={"placeholder": "Search by project name"}
+        ),
     )
 
 
@@ -81,26 +84,20 @@ class TaskSearchForm(forms.Form):
         required=False,
         label="",
         widget=forms.TextInput(
-            attrs={
-                "placeholder": "Search by task name"
-            }
-        )
+            attrs={"placeholder": "Search by task name"}
+        ),
     )
     pending = forms.BooleanField(
         required=False,
         label="Pending",
         widget=forms.CheckboxInput(
-            attrs={
-                "class": "form-checkbox"
-            }
-        )
+            attrs={"class": "form-checkbox"}
+        ),
     )
     assigned_to_user = forms.BooleanField(
         required=False,
         label="Assigned to me",
         widget=forms.CheckboxInput(
-            attrs={
-                "class": "form-checkbox"
-            }
-        )
+            attrs={"class": "form-checkbox"}
+        ),
     )

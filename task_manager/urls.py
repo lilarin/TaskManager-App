@@ -9,7 +9,7 @@ from task_manager.views import (
     TaskCreateView,
     TaskUpdateView,
     TaskDeleteView,
-    toggle_task_status
+    toggle_task_status,
 )
 
 

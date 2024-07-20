@@ -4,12 +4,9 @@ from task_manager.models import Task, TaskType, Project, Tag
 
 class TaskModelTests(TestCase):
     def setUp(self):
-        self.task_type = TaskType.objects.create(
-            name="Test task type"
-        )
+        self.task_type = TaskType.objects.create(name="Test task type")
         self.project = Project.objects.create(
-            name="Test project",
-            description="Test project description"
+            name="Test project", description="Test project description"
         )
         self.task = Task.objects.create(
             name="Test task",
