@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from task_manager.models import Project, Task, Worker
 from django.urls import reverse_lazy
 from django.views import generic
-from task_manager.form import (
+from task_manager.forms import (
     ProjectSearchForm,
     TaskSearchForm,
     TaskCreationForm,
