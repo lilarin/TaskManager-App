@@ -1,8 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from task_manager.models import Project, Task, Worker
 from django.urls import reverse_lazy
 from django.views import generic
@@ -20,6 +19,7 @@ class IndexListView(generic.ListView):
     context_object_name = 'projects'
     search_form_class = ProjectSearchForm
     search_field = "name"
+    paginate_by = 3
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -46,6 +46,7 @@ class ProjectTaskListView(LoginRequiredMixin, generic.ListView):
     context_object_name = 'tasks'
     search_form_class = TaskSearchForm
     search_field = "name"
+    paginate_by = 3
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -121,13 +122,13 @@ class TaskCreateView(LoginRequiredMixin, generic.CreateView):
         return kwargs
 
     def form_valid(self, form):
-        form.instance.project_id = self.kwargs.get('project_id')
+        form.instance.project_id = self.kwargs['pk']
         return super().form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy(
             'task_manager:project-task-list',
-            kwargs={'pk': self.kwargs.get('project_id')}
+            kwargs={'pk': self.kwargs['pk']}
         )
 
 
