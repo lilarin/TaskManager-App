@@ -7,6 +7,8 @@ from task_manager.forms import ProjectSearchForm, TaskSearchForm
 
 
 def set_up_data():
+    User = get_user_model()
+    User.objects.create_user(username="testuser", password="password")
     client = Client()
     client.login(username="testuser", password="password")
     project = Project.objects.create(
@@ -44,7 +46,7 @@ class IndexListViewTests(TestCase):
 
 class ProjectTaskListViewTests(TestCase):
     def setUp(self):
-        self.client, _, self.project = set_up_data()
+        self.client, self.task, self.project = set_up_data()
 
     def test_project_task_list_view_status_code(self):
         response = self.client.get(
