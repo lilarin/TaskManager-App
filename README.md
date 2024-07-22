@@ -2,10 +2,9 @@
 
 Django project for managing tasks in company
 
-## [Check it out here](https://task-manager-app-sal1.onrender.com)
-<sub>(deployed on render.com)</sub>
+[Check it out here](https://task-manager-app-sal1.onrender.com)
 
-### You can use following superuser and regular user:User
+### You can use following user (or create another one by yourself):
 > Login: `user`
 > 
 > Password: `123`
@@ -13,7 +12,7 @@ Django project for managing tasks in company
 ### Features
 
 * Authentication
-* Managing project & tasks 
+* Managing projects & tasks 
 * Simple, user-friendly UI
 
 ### Installation
