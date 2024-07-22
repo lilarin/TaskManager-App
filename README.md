@@ -31,8 +31,8 @@ python manage.py runserver
 ### Demo
 ![image](https://github.com/user-attachments/assets/96c4e9e2-a7f7-420b-b9bc-b08530717f99)
 ![image](https://github.com/user-attachments/assets/0a4f766d-c86b-45ac-87a8-3f4632ae6669)
-![image](https://github.com/user-attachments/assets/0d54c5e3-8341-45d3-815e-9701906a8b37)
 ![image](https://github.com/user-attachments/assets/b4336bc2-ed80-4fef-a3dc-616ac8324afb)
+![image](https://github.com/user-attachments/assets/0d54c5e3-8341-45d3-815e-9701906a8b37)
 ![image](https://github.com/user-attachments/assets/1a4de16f-794d-41a4-9b3b-7d7a865bc000)
 ![image](https://github.com/user-attachments/assets/0b2bfe25-5aee-4ae3-af96-6ed91eefeac1)
 ![image](https://github.com/user-attachments/assets/a3b937e3-c8c6-4f9c-a722-c0f994b53df0)
