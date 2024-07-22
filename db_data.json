@@ -92,8 +92,8 @@
   "model": "task_manager.worker",
   "pk": 2,
   "fields": {
-    "password": "pbkdf2_sha256$390000$q91YlJIBGW6dINyxuF3CRm$W58GEKX/cPtQT430PSDf83L1yKNGQMsF2CTwW68pCXU=",
-    "last_login": "2024-07-19T16:27:39.330Z",
+    "password": "pbkdf2_sha256$600000$gBcC9A535zgPv0V7Szkvlz$k0nkZkKrahAu1PnBCTg2LHshxV5NcI3S+GJaJce0JyY=",
+    "last_login": "2024-07-22T12:54:55.336Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "Lucas",
@@ -259,14 +259,6 @@
   "fields": {
     "name": "Our website",
     "description": "Maintaining, updating and improving our website"
-  }
-},
-{
-  "model": "task_manager.project",
-  "pk": 5,
-  "fields": {
-    "name": "Empty project",
-    "description": "No description yet"
   }
 },
 {

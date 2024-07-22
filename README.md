@@ -13,7 +13,7 @@ Django project for managing tasks in company
 
 * Authentication
 * Managing projects & tasks 
-* Simple, user-friendly UI
+* Simple & user-friendly UI
 
 ### Installation
 Python3 required
