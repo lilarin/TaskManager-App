@@ -1,5 +1,10 @@
 from django.test import TestCase
-from task_manager.models import Task, TaskType, Project, Tag
+from task_manager.models import (
+    Task,
+    TaskType,
+    Project,
+    Tag
+)
 
 
 class TaskModelTests(TestCase):
