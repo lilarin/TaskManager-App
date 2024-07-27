@@ -2,7 +2,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from task_manager.models import Project, Task, Worker
 from django.urls import reverse_lazy
 from django.views import generic
 from task_manager.forms import (
@@ -10,6 +9,11 @@ from task_manager.forms import (
     TaskSearchForm,
     TaskCreationForm,
     TaskUpdateForm,
+)
+from task_manager.models import (
+    Project,
+    Task,
+    Worker
 )
 
 

@@ -1,6 +1,9 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from task_manager.models import Worker, Position
+from task_manager.models import (
+    Worker,
+    Position
+)
 
 
 class UserRegisterForm(UserCreationForm):

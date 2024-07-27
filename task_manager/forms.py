@@ -1,6 +1,9 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from task_manager.models import Task, Tag
+from task_manager.models import (
+    Task,
+    Tag
+)
 
 
 class TaskCreationForm(forms.ModelForm):
