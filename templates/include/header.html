@@ -1,0 +1,29 @@
+<header>
+  <nav>
+    <h3>
+      <a href="{% url 'task_manager:index' %}">Home</a>
+    </h3>
+
+    {% if task %}
+      <h3>
+        <strong>Task #{{ task.id }}</strong>
+      </h3>
+    {% elif project %}
+      <h3>
+        <strong>{{ project.name }}</strong>
+      </h3>
+    {% endif %}
+    {% if user.is_authenticated %}
+      <div>
+        <h3>
+          <a href="{% url 'accounts:logout' %}">Logout</a>
+        </h3>
+        <p style="text-align: right" >{{ user.username }}</p>
+      </div>
+    {% else %}
+      <h3>
+        <a href="{% url 'accounts:login' %}">Log in</a>
+      </h3>
+    {% endif %}
+  </nav>
+</header>
